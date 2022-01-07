@@ -66,11 +66,13 @@ export class TasksService {
 		return this.tasksRepository.createTask(createTaskDto);
 	}
 
-	// deleteTask(id: string): void {
-	//     const foundTask = this.getTaskById(id);
-	//     this.tasks = this.tasks.filter((task) => task.id !== foundTask.id);
-	//     //filter this array and only keep these tasks where the id isn't identical to the one I'm looking for => deleteTask(id: string) and I assign the new array to this.task
-	// }
+	async deleteTask(id: string): Promise <void> {
+		const result = await this.tasksRepository.delete(id);
+		if(result.affected === 0) {
+			throw new NotFoundException(`Task with ID ${id} not found`) 
+		}
+		
+	}
 
 	// updateTaskStatus(id: string, status: TaskStatus) {
 	//     const task =  this.getTaskById(id);
@@ -80,3 +82,16 @@ export class TasksService {
 	//     //return the status in the response
 	// }
 }
+
+
+
+
+/* 
+	delete => doesn't check beforehand if the entity exists in the database
+
+	remove => we have to pass an object entity. So when you call remove it's garanteed that the entity exists in the db
+
+	When making calls to the db you want to minimize the amount of the times they have to call the db, why? Becasue:
+	1. makes the app slower
+	2. requires more scaling which it's expensive
+*/
