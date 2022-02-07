@@ -8,7 +8,8 @@ export class UsersController {
     constructor(private usersService: UsersService){}
 
     @Get()
-    // getUsers(@Query() getUsersDto: GetUsersDto): Promise<User[]>{
-    //     return this.usersService.getAllUsers(getUsersDto);
-    // }
+    getUsers(@Query() getUsersDto: GetUsersDto){
+        console.log(getUsersDto)
+        return this.usersService.getAllUsers(getUsersDto);
+    }
 }

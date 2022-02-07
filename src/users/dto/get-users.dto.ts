@@ -1,10 +1,10 @@
-import {IsString, IsInt } from "class-validator";
+import {IsString, IsInt, IsOptional } from "class-validator";
 
 export class GetUsersDto {
 
-    @IsString()
-    firstName: string;
+    @IsOptional()
+    firstName: any;
 
-    @IsInt()
-    tasksAssigned: number;
+    @IsOptional()
+    tasksAssigned: any;
 }

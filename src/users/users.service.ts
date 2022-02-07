@@ -11,7 +11,8 @@ export class UsersService {
         private userRepository: UserRepository,
     ){}
 
-    getAllUsers(getUsersDto: GetUsersDto){
-        return this.userRepository.getAllUsers(getUsersDto);
+    getAllUsers(getUsersDto: GetUsersDto): Promise<User[]>{
+        return this.userRepository.find(getUsersDto);
+       
     }
 }
