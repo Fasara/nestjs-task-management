@@ -5,6 +5,5 @@
     "username": "root",
     "password": "my_secret_password",
     "database": "task-management",
-    "entities": ["dist/**/*.entity{.ts,.js}"],
-    "synchronize": true
+    "entities": ["dist/**/*.entity{.ts,.js}"]
 }
