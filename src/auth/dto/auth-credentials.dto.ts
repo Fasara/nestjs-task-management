@@ -7,7 +7,7 @@ export class AuthCredentialsDto {
     username: string;
 
     @IsString()
-    @MinLength(8)
+    @MinLength(8, {message: 'password must have at least 8 characters'})
     @MaxLength(32)
     password: string;
 }

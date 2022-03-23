@@ -8,7 +8,13 @@ export class UsersRepository extends Repository<User> {
     async createUser(authCredentialsDto: AuthCredentialsDto): Promise <void> {
         const { username, password } = authCredentialsDto;
         const user = this.create({ username, password });
-        await this.save(user);
+
+        // wip - needs {unique: true} to work in the entity first
+        try {
+            await this.save(user);
+        } catch (error) {
+            console.log(error.code);
+        }
     }
 
 }
