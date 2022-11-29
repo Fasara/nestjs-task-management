@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
   database: 'task-management',
   password: 'my_secret_password',
   entities: ['dist/**/*.entity.{js,ts}'],
-  migrations: ['dist/migrations/**/*{.ts,.js}'],
+  migrations: ['src/migrations/**/*{.ts,.js}'],
   migrationsRun: true,
   synchronize: false,
   logging: true,
