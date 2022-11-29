@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-
+import { AppDataSource } from 'data-source';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
     TasksModule,
-    AuthModule
+    AuthModule,
+    TypeOrmModule.forRoot(AppDataSource.options),
   ],
   controllers: [],
   providers: [],

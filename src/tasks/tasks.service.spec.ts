@@ -5,18 +5,17 @@ import { TasksService } from './tasks.service';
 
 const mockTasksRepository = () => ({});
 
-
 describe('TasksService', () => {
-    let tasksService : TasksService;
-    let TasksRepository : TasksRepository;
+  let tasksService: TasksService;
+  let TasksRepository: TasksRepository;
 
-    beforeEach(async () => {
-        const module = await Test.createTestingModule({
-            providers: [TasksModule,
-            // { provide: TasksRepository,
-            // useFactory: mockTasksRepository }
-            
-            ],
-        })
-    })
-}) 
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        TasksModule,
+        // { provide: TasksRepository,
+        // useFactory: mockTasksRepository }
+      ],
+    });
+  });
+});
