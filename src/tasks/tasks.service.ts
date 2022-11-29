@@ -2,16 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaskStatus } from './task-status.enum';
 import { CreateTaskDto } from './dto/create-tasks.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { TasksRepository } from './tasks.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './dto/task.entity';
+import { AppDataSource } from 'data-source';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-  constructor(private tasksRepository: TasksRepository) {}
+  constructor(
+    @InjectRepository(Task)
+    private readonly tasksRepository: Repository<Task>,
+  ) {}
 
   getAllTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
-    return this.tasksRepository.getAllTask(filterDto);
+    return this.tasksRepository.find();
   }
 
   async getTaskById(id: string): Promise<Task> {
@@ -26,8 +30,37 @@ export class TasksService {
     return foundTask;
   }
 
-  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.tasksRepository.createTask(createTaskDto);
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    const { title, description } = createTaskDto;
+
+    const task = this.tasksRepository.create({
+      title,
+      description,
+      status: TaskStatus.OPEN,
+    });
+
+    await this.tasksRepository.save(task);
+    return task;
+  }
+
+  async getAllTask(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    const { status, search } = filterDto;
+
+    const query = this.tasksRepository.createQueryBuilder('task');
+
+    if (status) {
+      query.andWhere('task.status = :status', { status });
+    }
+
+    if (search) {
+      query.andWhere(
+        'LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)',
+        { search: `%${search}%` },
+      );
+    }
+
+    const tasks = await query.getMany();
+    return tasks;
   }
 
   async deleteTask(id: string): Promise<void> {
