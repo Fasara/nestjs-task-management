@@ -8,57 +8,53 @@ import { Task } from './dto/task.entity';
 
 @Injectable()
 export class TasksService {
-	constructor(
-		@InjectRepository(TasksRepository)
-		private tasksRepository: TasksRepository,
-	) { }
+  constructor(
+    @InjectRepository(TasksRepository)
+    private tasksRepository: TasksRepository,
+  ) {}
 
-	getAllTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
-		return this.tasksRepository.getAllTask(filterDto);
-	}
-	    
-	async getTaskById(id: string): Promise<Task> {
-		const foundTask = await this.tasksRepository.findOne(id);
+  getAllTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    return this.tasksRepository.getAllTask(filterDto);
+  }
 
-		if (!foundTask) {
-			throw new NotFoundException(`Task with ID "${id}" not found`);
-		}
+  async getTaskById(id: string): Promise<Task> {
+    const foundTask = await this.tasksRepository.findOne(id);
 
-		return foundTask;
-	}
+    if (!foundTask) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
 
-	createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-		return this.tasksRepository.createTask(createTaskDto);
-	}
+    return foundTask;
+  }
 
-	async deleteTask(id: string): Promise <void> {
-		const result = await this.tasksRepository.delete(id);
+  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksRepository.createTask(createTaskDto);
+  }
 
-		if(result.affected === 0) {
-			throw new NotFoundException(`Task with ID ${id} not found`) 
-		}
-		
-	}
-  
-	async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
-		const task = await this.getTaskById(id);
+  async deleteTask(id: string): Promise<void> {
+    const result = await this.tasksRepository.delete(id);
 
-		task.status = status;
-		await this.tasksRepository.save(task);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+  }
 
-		return task;
-	}
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+    const task = await this.getTaskById(id);
+
+    task.status = status;
+    await this.tasksRepository.save(task);
+
+    return task;
+  }
 }
-
-
-
 
 /* 
 	delete => doesn't check beforehand if the entity exists in the database
 
 	remove => we have to pass an object entity. So when you call remove it's garanteed that the entity exists in the db
 
-	When making calls to the db you want to minimize the amount of the times they have to call the db, why? Becasue:
+	When making calls to the db you want to minimize the amount of the times they have to call the db, why? Because:
 	1. makes the app slower
 	2. requires more scaling which it's expensive
 */
