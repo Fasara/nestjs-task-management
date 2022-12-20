@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TaskStatus } from './task-status.enum';
-import { CreateTaskDto } from './dto/create-tasks.dto';
-import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { UpdateTaskStatusDto } from './dto/update-tasks-status.dto';
-import { Task } from './dto/task.entity';
+import { CreateTaskDto } from './dtos/create-tasks.dto';
+import { GetTasksFilterDto } from './dtos/get-tasks-filter.dto';
+import { UpdateTaskStatusDto } from './dtos/update-tasks-status.dto';
+import { Task } from './dtos/task.entity';
 
 @Controller('tasks')
 export class TasksController {
