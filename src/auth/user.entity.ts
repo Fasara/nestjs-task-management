@@ -12,5 +12,8 @@ export class User {
   age?: number;
 
   @Column()
+  address?: string;
+
+  @Column()
   password: string;
 }

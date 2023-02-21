@@ -23,7 +23,6 @@ export class TasksController {
   //Otherwise, just get all tasks
   @Get()
   getTasks(@Query() filterDto: GetTasksFilterDto): Promise<Task[]> {
-    console.log('heyyyyy', filterDto, Task, typeof Task);
     return this.tasksService.getAllTasks(filterDto);
   }
 
